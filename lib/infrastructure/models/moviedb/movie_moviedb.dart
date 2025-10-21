@@ -1,9 +1,3 @@
-// representa la estrcutura exacta del json que retorna la api para una pelicula individual, este modelo es responsable de:
-// deserializar el json de la API a un objeto dart
-// serializar el objeto dart a json 
-
-
-// MovieMovieDB  representa la estructura de datos de una pelicula obtenida de The Movie DataBase (TMDB) API
 class MovieMovieDB {
     MovieMovieDB({
         required this.adult,
@@ -36,7 +30,7 @@ class MovieMovieDB {
     final bool video;
     final double voteAverage;
     final int voteCount;
-    // crea una instancia de MovieMovieDB a partir de un mapa json
+
     factory MovieMovieDB.fromJson(Map<String, dynamic> json) => MovieMovieDB(
         adult: json["adult"] ?? false,
         backdropPath: json["backdrop_path"] ?? '',
@@ -54,7 +48,6 @@ class MovieMovieDB {
         voteCount: json["vote_count"],
     );
 
-    // convierte el objeto MovieMovieDB a un mapa json
     Map<String, dynamic> toJson() => {
         "adult": adult,
         "backdrop_path": backdropPath,
