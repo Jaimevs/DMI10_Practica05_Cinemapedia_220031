@@ -79,6 +79,31 @@ class _Slide extends StatelessWidget {
               ),
             ),
           ),
+
+          const SizedBox(height: 5),
+
+          SizedBox(
+            width: 150,
+            child: Text(
+              movie.title,
+              maxLines: 2,
+              style: Theme.of(context).textTheme.titleMedium
+            ),
+          ),
+
+          //Rating
+
+          SizedBox(
+            width: 150,
+            child: Row(
+              children: [
+                Icon(Icons.star_half_outlined, color: Colors.yellow.shade800),
+                const SizedBox(width: 3),
+                Text('${movie.voteAverage}', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.yellow.shade800)),
+                const SizedBox(width: 10,),
+                Text('${movie.popularity}', style: Theme.of(context).textTheme.bodySmall,)
+              ],
+            ),)
         ],
       ),
     );
