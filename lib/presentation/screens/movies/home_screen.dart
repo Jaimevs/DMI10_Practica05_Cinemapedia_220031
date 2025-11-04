@@ -5,15 +5,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cinemapedia_220031/presentation/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
-  /// Identificador único para navegación con GoRouter
   static const name = 'home-screen';
 
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: _HomeView(),
-    bottomNavigationBar: CustomBottomNavigationbar(),);
+    return const Scaffold(
+      body: _HomeView(),
+      bottomNavigationBar: CustomBottomNavigationbar(),
+    );
   }
 }
 
@@ -24,36 +25,75 @@ class _HomeView extends ConsumerStatefulWidget {
   _HomeViewState createState() => _HomeViewState();
 }
 
-
 class _HomeViewState extends ConsumerState<_HomeView> {
   @override
   void initState() {
     super.initState();
-
-    /// Carga la primera página de películas al inicializar la pantalla
-    /// Usa .read() porque es una acción única, no una escucha continua
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
+    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+    ref.read(upcomingMoviesProvider.notifier).loadNextPage();
+    ref.read(mexicanMoviesProvider.notifier).loadNextPage();
   }
 
   @override
   Widget build(BuildContext context) {
     final nowPlaying = ref.watch(nowPlayingMoviesProvider);
     final slideShowMovies = ref.watch(moviesSlideShowProvider);
+    final popularMovies = ref.watch(popularMoviesProvider);
+    final topRatedMovies = ref.watch(topRatedMoviesProvider);
+    final upcomingMovies = ref.watch(upcomingMoviesProvider);
+    final mexicanMovies = ref.watch(mexicanMoviesProvider);
 
-    /// Lista deslizable que muestra todas las películas
-    return Column(
-      children: [
-        CustomAppbar(),
-        MovieSlideshow(movies: slideShowMovies),
-        MovieHorizontalListview(movies: nowPlaying,
-        title: 'En cines',
-        subTitle: 'Miercoles, 22 de Octubre',
-        loadNextPage:() =>
-          ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
-        ),
-        
-        
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          CustomAppbar(),
+          MovieSlideshow(movies: slideShowMovies),
+          
+          MovieHorizontalListview(
+            movies: nowPlaying,
+            title: 'En cines',
+            subTitle: 'Jueves, 3 de Noviembre',
+            loadNextPage: () => 
+              ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+          ),
+          
+          MovieHorizontalListview(
+            movies: upcomingMovies,
+            title: 'Próximamente',
+            subTitle: 'Noviembre',
+            loadNextPage: () => 
+              ref.read(upcomingMoviesProvider.notifier).loadNextPage(),
+          ),
+          
+          MovieHorizontalListview(
+            movies: popularMovies,
+            title: 'Populares',
+            subTitle: 'Noviembre',
+            loadNextPage: () => 
+              ref.read(popularMoviesProvider.notifier).loadNextPage(),
+          ),
+          
+          MovieHorizontalListview(
+            movies: topRatedMovies,
+            title: 'Mejor calificadas',
+            subTitle: 'Noviembre',
+            loadNextPage: () => 
+              ref.read(topRatedMoviesProvider.notifier).loadNextPage(),
+          ),
+          
+          MovieHorizontalListview(
+            movies: mexicanMovies,
+            title: 'Mexicanas',
+            subTitle: 'Noviembre',
+            loadNextPage: () => 
+              ref.read(mexicanMoviesProvider.notifier).loadNextPage(),
+          ),
+          
+          const SizedBox(height: 10)
+        ],
+      ),
     );
   }
 }
